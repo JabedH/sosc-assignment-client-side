@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import google from "../../asset/img/google.png";
 
 const Signup = () => {
   const {
@@ -144,8 +145,11 @@ const Signup = () => {
                 <div className="">
                   <div className="flex flex-col w-full border-opacity-50">
                     <div className="divider">OR</div>
-                    <button className="btn btn-outline">
-                      CONTINUE WITH GOOGLE
+                    <button className="btn btn-outline flex justify-around">
+                      <h3 className=" font-bold text-[16px]">
+                        CONTINUE WITH GOOGLE
+                      </h3>
+                      <img className="w-10" src={google} alt="" />
                     </button>
                   </div>
                 </div>
