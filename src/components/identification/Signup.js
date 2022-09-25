@@ -1,15 +1,38 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import google from "../../asset/img/google.png";
+import auth from "../../firebase.init";
+import {
+  useCreateUserWithEmailAndPassword,
+  useSignInWithGoogle,
+  useUpdateProfile,
+} from "react-firebase-hooks/auth";
 
 const Signup = () => {
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
+
+  const onSubmit = async (data) => {
+    await createUserWithEmailAndPassword(data.name, data.email);
+    // await signInWithGoogle(data.name, data.email);
+  };
+
+  // const [token] = useToken(user || Guser);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  let from = location.state?.from?.pathname || "/";
+  if (user || gUser) {
+    navigate(from, { replace: true });
+  }
   return (
     <div>
       <div className="my-10">
@@ -18,7 +41,7 @@ const Signup = () => {
           <div class=" w-96 lg:flex-row-reverse ">
             <div class="card flex-shrink-0 shadow-2xl bg-base-100">
               <div class="card-body ">
-                <form action="">
+                <form action="" onSubmit={handleSubmit(onSubmit)}>
                   <div class="form-control">
                     <label class="label">
                       <span class="label-text">Name</span>
@@ -145,7 +168,10 @@ const Signup = () => {
                 <div className="">
                   <div className="flex flex-col w-full border-opacity-50">
                     <div className="divider">OR</div>
-                    <button className="btn btn-outline flex justify-around">
+                    <button
+                      onClick={() => signInWithGoogle()}
+                      className="btn btn-outline flex justify-around"
+                    >
                       <h3 className=" font-bold text-[16px]">
                         CONTINUE WITH GOOGLE
                       </h3>
