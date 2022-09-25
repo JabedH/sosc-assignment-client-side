@@ -6,36 +6,38 @@ import auth from "../../firebase.init";
 const UpdateUserModal = ({ newUser, refetch }) => {
   const [user] = useAuthState(auth);
   console.log(newUser);
-  const email = newUser?.email;
+  const email = user?.email;
 
   const handleBooking = (event) => {
     event.preventDefault();
     const name = event.target.name.value;
     const phone = event.target.phone.value;
     const education = event.target.education.value;
-    const img = event.target.img.value;
+    // const img = event.target.img.value;
+
     const address = event.target.address.value;
+    console.log(address, education, phone, name);
+
     const allData = {
       name: name,
       phone: phone,
       education: education,
       address: address,
-      img: img,
+      // img: img,
     };
-    fetch(`http://localhost:5000/allusers/${email}`, {
+    fetch(`http://localhost:5000/allUsers/${email}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
       body: JSON.stringify(allData),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.result);
-        if (data.result.modifiedCount > 0) {
-          toast("Successfully Your profile updated");
-        }
+        console.log(data);
+
+        toast("Successfully Your profile updated");
+
         refetch();
       });
   };
@@ -91,12 +93,12 @@ const UpdateUserModal = ({ newUser, refetch }) => {
               placeholder="Type Your Address"
               className="input input-bordered w-full max-w-xs"
             />
-            <input
+            {/* <input
               type="text"
               name="img"
               placeholder="Past your image link"
               className="input input-bordered w-full max-w-xs"
-            />
+            /> */}
             <input
               type="submit"
               value="Save"
