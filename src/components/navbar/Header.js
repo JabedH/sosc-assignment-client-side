@@ -29,7 +29,7 @@ const Header = () => {
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a>
+                <a className="btn text-white">
                   {user ? (
                     <Link onClick={() => HandleLogout()} to="/login">
                       Logout

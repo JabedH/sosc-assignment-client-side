@@ -1,19 +1,35 @@
 import React from "react";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
+import {
+  useSignInWithEmailAndPassword,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import google from "../../asset/img/google.png";
 import auth from "../../firebase.init";
 
 const Login = () => {
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
+
+  const onSubmit = (data) => {
+    signInWithEmailAndPassword(data.email, data.password);
+  };
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  let from = location.state?.from?.pathname || "/";
+  if (user || gUser) {
+    navigate(from, { replace: true });
+  }
   return (
     <div>
       <div className="my-10">
@@ -22,7 +38,7 @@ const Login = () => {
           <div class=" w-96 lg:flex-row-reverse ">
             <div class="card flex-shrink-0 shadow-2xl bg-base-100">
               <div class="card-body ">
-                <form action="">
+                <form action="" onSubmit={handleSubmit(onSubmit)}>
                   <div class="form-control">
                     <label class="label">
                       <span class="label-text">Email</span>
