@@ -21,8 +21,10 @@ const Signup = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    await createUserWithEmailAndPassword(data.name, data.email);
+    await createUserWithEmailAndPassword(data.email, data.password);
     // await signInWithGoogle(data.name, data.email);
+
+    console.log(data.email, data.password);
   };
 
   // const [token] = useToken(user || Guser);
