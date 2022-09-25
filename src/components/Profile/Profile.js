@@ -3,10 +3,28 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import UpdateUserModal from "./UpdateUserModal";
 import newUserProfile from "../../asset/img/user.png";
+import { useQuery } from "react-query";
 
 const Profile = () => {
   const [user] = useAuthState(auth);
+  // console.log(user?.email);
+
   // console.log(user);
+  const {
+    data: newUsers,
+    isLoading,
+    refetch,
+  } = useQuery("newUsers", () =>
+    fetch(`http://localhost:5000/allusers?email=${user?.email}`, {
+      // fetch(`http://localhost:5000/allusers/${user?.email}`, {
+      method: "GET",
+    }).then((res) => res.json())
+  );
+  console.log(newUsers);
+  if (isLoading) {
+    return <p>Loading....</p>;
+  }
+
   return (
     <div className="my-10 flex justify-center">
       {/* {newUsers.map((newUser) => ())} */}
@@ -53,7 +71,7 @@ const Profile = () => {
         </div>
 
         {/* <MyProfileModal newUser={newUser} refetch={refetch} /> */}
-        <UpdateUserModal newUser, refetch />
+        <UpdateUserModal newUsers={newUsers} refetch={refetch} />
       </div>
     </div>
   );

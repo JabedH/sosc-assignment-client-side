@@ -6,8 +6,7 @@ import auth from "../../firebase.init";
 const UpdateUserModal = ({ newUser, refetch }) => {
   const [user] = useAuthState(auth);
   console.log(newUser);
-  const id = newUser._id;
-  const email = newUser.email;
+  const email = newUser?.email;
 
   const handleBooking = (event) => {
     event.preventDefault();
@@ -15,10 +14,7 @@ const UpdateUserModal = ({ newUser, refetch }) => {
     const phone = event.target.phone.value;
     const education = event.target.education.value;
     const img = event.target.img.value;
-
     const address = event.target.address.value;
-    console.log(address, education, phone, name, id);
-
     const allData = {
       name: name,
       phone: phone,
@@ -59,7 +55,7 @@ const UpdateUserModal = ({ newUser, refetch }) => {
           </label>
           <h3 className="font-bold text-lg ">Your Information</h3>
           <form
-            // onSubmit={handleBooking}
+            onSubmit={handleBooking}
             action=""
             className="grid gap-3 justify-items-center mt-2"
           >

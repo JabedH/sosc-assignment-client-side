@@ -7,9 +7,13 @@ import { Route, Routes } from "react-router-dom";
 import Header from "./components/navbar/Header";
 import Footer from "./components/navbar/Footer";
 import { ToastContainer } from "react-toastify";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
+    <QueryClientProvider client={queryClient}>
     <div className="App">
       <Header />
       <Routes>
@@ -20,6 +24,7 @@ function App() {
       <Footer />
       <ToastContainer />
     </div>
+    </QueryClientProvider>
   );
 }
 
