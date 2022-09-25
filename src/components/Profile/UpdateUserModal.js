@@ -1,6 +1,48 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { toast } from "react-toastify";
+import auth from "../../firebase.init";
 
-const UpdateUserModal = () => {
+const UpdateUserModal = ({ newUser, refetch }) => {
+  const [user] = useAuthState(auth);
+  console.log(newUser);
+  const id = newUser._id;
+  const email = newUser.email;
+
+  const handleBooking = (event) => {
+    event.preventDefault();
+    const name = event.target.name.value;
+    const phone = event.target.phone.value;
+    const education = event.target.education.value;
+    const img = event.target.img.value;
+
+    const address = event.target.address.value;
+    console.log(address, education, phone, name, id);
+
+    const allData = {
+      name: name,
+      phone: phone,
+      education: education,
+      address: address,
+      img: img,
+    };
+    fetch(`http://localhost:5000/allusers/${email}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+      body: JSON.stringify(allData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.result);
+        if (data.result.modifiedCount > 0) {
+          toast("Successfully Your profile updated");
+        }
+        refetch();
+      });
+  };
   return (
     <div className="">
       <label for="myProfile-modal" class="btn modal-button my-5">
@@ -30,7 +72,7 @@ const UpdateUserModal = () => {
             <input
               type="text"
               name="email"
-              //   value={user?.email}
+              value={user?.email}
               disabled
               className="input input-bordered w-full max-w-xs"
             />

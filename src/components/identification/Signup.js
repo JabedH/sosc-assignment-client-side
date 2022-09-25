@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import google from "../../asset/img/google.png";
 import auth from "../../firebase.init";
 import {
+  useAuthState,
   useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
   useUpdateProfile,
@@ -13,6 +14,7 @@ const Signup = () => {
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
+  console.log(gUser);
   const {
     register,
     handleSubmit,
@@ -21,13 +23,36 @@ const Signup = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    await createUserWithEmailAndPassword(data.email, data.password);
-    // await signInWithGoogle(data.name, data.email);
-
-    console.log(data.email, data.password);
+    const email = data.email;
+    const password = data.password;
+    const name = data.name;
+    await createUserWithEmailAndPassword(email, password);
+    fetch(`http://localhost:5000/saveUser/${email}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        email: email,
+        name: name,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
   };
+  if (gUser) {
+    const email = gUser?.user?.email;
+    console.log(email);
+    fetch(`http://localhost:5000/saveUser/${email}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        email: gUser?.user?.email,
+        name: gUser?.user?.displayName,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+  }
 
-  // const [token] = useToken(user || Guser);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -172,6 +197,7 @@ const Signup = () => {
                     <div className="divider">OR</div>
                     <button
                       onClick={() => signInWithGoogle()}
+                      // onSubmit={handleSubmit(onSubmit)}
                       className="btn btn-outline flex justify-around"
                     >
                       <h3 className=" font-bold text-[16px]">

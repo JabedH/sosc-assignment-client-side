@@ -6,6 +6,7 @@ import Profile from "./components/Profile/Profile";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/navbar/Header";
 import Footer from "./components/navbar/Footer";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Profile />}></Route>
       </Routes>
       <Footer />
+      <ToastContainer />
     </div>
   );
 }

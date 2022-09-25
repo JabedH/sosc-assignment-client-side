@@ -1,14 +1,22 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
 import UpdateUserModal from "./UpdateUserModal";
+import newUserProfile from "../../asset/img/user.png";
 
 const Profile = () => {
+  const [user] = useAuthState(auth);
+  // console.log(user);
   return (
     <div className="my-10 flex justify-center">
       {/* {newUsers.map((newUser) => ())} */}
       <div>
         <div class="avatar mb-5">
           <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-            {/* <img src={user.photoURL ? user.photoURL : newUser.img} /> */}
+            <img
+              src={user?.photoURL ? user?.photoURL : newUserProfile}
+              alt=""
+            />
           </div>
         </div>
         <div class="overflow-x-auto">
@@ -22,11 +30,11 @@ const Profile = () => {
             <tbody>
               <tr>
                 <td>Name: </td>
-                {/* <td>{newUser.name ? newUser.name : user?.displayName}</td> */}
+                <td>{user?.displayName}</td>
               </tr>
               <tr>
                 <td>Email:</td>
-                <td></td>
+                <td>{user?.email}</td>
               </tr>
               <tr>
                 <td>Phone:</td>
@@ -45,7 +53,7 @@ const Profile = () => {
         </div>
 
         {/* <MyProfileModal newUser={newUser} refetch={refetch} /> */}
-        <UpdateUserModal  />
+        <UpdateUserModal newUser, refetch />
       </div>
     </div>
   );

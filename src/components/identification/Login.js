@@ -30,6 +30,21 @@ const Login = () => {
   if (user || gUser) {
     navigate(from, { replace: true });
   }
+
+  if (gUser) {
+    const email = gUser?.user?.email;
+    console.log(email);
+    fetch(`http://localhost:5000/saveUser/${email}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        email: gUser?.user?.email,
+        name: gUser?.user?.displayName,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+  }
   return (
     <div>
       <div className="my-10">
