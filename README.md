@@ -1,2 +1,2 @@
-# Client Side Code - https://github.com/JabedH/sosc-assignment-server-sidepp
+# Client Side Code - https://github.com/JabedH/sosc-assignment-server-side
 
