@@ -1,11 +1,11 @@
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import auth from "../../firebase.init";
 
-const UpdateUserModal = ({ newUser, refetch }) => {
+const UpdateUserModal = ({ getUser, refetch }) => {
   const [user] = useAuthState(auth);
-  console.log(newUser);
+  console.log(getUser);
   const email = user?.email;
 
   const handleBooking = (event) => {
@@ -107,6 +107,7 @@ const UpdateUserModal = ({ newUser, refetch }) => {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
