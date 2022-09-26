@@ -13,8 +13,6 @@ const UpdateUserModal = ({ getUser, refetch }) => {
     const name = event.target.name.value;
     const phone = event.target.phone.value;
     const education = event.target.education.value;
-    // const img = event.target.img.value;
-
     const address = event.target.address.value;
     console.log(address, education, phone, name);
 
@@ -25,7 +23,7 @@ const UpdateUserModal = ({ getUser, refetch }) => {
       address: address,
       // img: img,
     };
-    fetch(`http://localhost:5000/allUsers/${email}`, {
+    fetch(`https://sosc-assignment-server-side-production.up.railway.app/allUsers/${email}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -35,9 +33,6 @@ const UpdateUserModal = ({ getUser, refetch }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-
-        toast("Successfully Your profile updated");
-
         refetch();
       });
   };
@@ -93,15 +88,10 @@ const UpdateUserModal = ({ getUser, refetch }) => {
               placeholder="Type Your Address"
               className="input input-bordered w-full max-w-xs"
             />
-            {/* <input
-              type="text"
-              name="img"
-              placeholder="Past your image link"
-              className="input input-bordered w-full max-w-xs"
-            /> */}
+
             <input
               type="submit"
-              value="Save"
+              value="Update"
               className="btn btn-primary w-full max-w-xs"
             />
           </form>
