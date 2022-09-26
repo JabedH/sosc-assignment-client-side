@@ -125,11 +125,11 @@ const Login = () => {
                         </span>
                       )}
                     </label>
-                    <label class="label">
+                    {/* <label class="label">
                       <a href="#" class="label-text-alt link link-hover">
                         Forgot password?
                       </a>
-                    </label>
+                    </label> */}
                   </div>
                   <div class="form-control mt-6">
                     <button class="btn btn-primary">Login</button>
@@ -137,7 +137,7 @@ const Login = () => {
                 </form>
                 <div className="flex ">
                   <Link className="text-primary" to="/signup">
-                    Create new account
+                    Create a new account
                   </Link>
                 </div>
                 <div className="">
